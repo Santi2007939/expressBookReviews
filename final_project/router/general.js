@@ -67,7 +67,6 @@ public_users.get('/isbn/:isbn',function (req, res) {
             reject("Book not found");
         }
 
-        if (!book) return res.status(404).json({message: "Book not found"});
     });
 
     getBook.then((book) => {
@@ -83,7 +82,7 @@ public_users.get('/author/:author',function (req, res) {
         const author = req.params.author.toLowerCase();
         let author_Books = Object.values(books).filter((book) => book.author.toLowerCase() === author);
         if (author_Books) {
-            resolve(books);
+            resolve(author_Books);
         } else {
             reject("No books found");
         }
@@ -104,18 +103,18 @@ public_users.get('/author/:author',function (req, res) {
 public_users.get('/title/:title',function (req, res) {
     const getBooks = new Promise((resolve, reject) => {
         const title = req.params.title.toLowerCase();
-        let book_finded = Object.values(books).filter((book) => book.title.toLowerCase() === title);
+        let bookFound = Object.values(books).filter((book) => book.title.toLowerCase() === title);
 
-        if (book_finded) {
-            resolve(book_finded[0]);
+        if (bookFound) {
+            resolve(bookFound[0]);
         } else {
             reject("No books found");
         }
     });
 
     getBooks.then(
-        (bookFinded) => {
-            res.status(200).send(bookFinded);
+        (bookFound) => {
+            res.status(200).send(bookFound);
         }
     ).catch(
         (error) => {
